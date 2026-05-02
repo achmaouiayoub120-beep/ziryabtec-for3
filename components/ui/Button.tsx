@@ -1,11 +1,11 @@
 "use client";
 
 import React, { useRef, type MouseEvent } from "react";
-import { motion, useReducedMotion } from "framer-motion";
+import { HTMLMotionProps, motion, useReducedMotion } from "framer-motion";
 import { cn, transitions } from "@/lib/utils";
 import { Loader2 } from "lucide-react";
 
-interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+interface ButtonProps extends HTMLMotionProps<"button"> {
   variant?: "primary" | "secondary" | "ghost" | "danger";
   size?: "sm" | "md" | "lg";
   loading?: boolean;
