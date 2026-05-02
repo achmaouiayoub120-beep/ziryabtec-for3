@@ -1,11 +1,8 @@
 "use client";
 
 import { motion, useReducedMotion } from "framer-motion";
-import { Star, Clock, Users, BookOpen } from "lucide-react";
-import Badge from "@/components/ui/Badge";
-import GlassCard from "@/components/ui/GlassCard";
+import { PlayCircle, UserPlus, ArrowRight } from "lucide-react";
 import SectionWrapper, { FadeInChild } from "@/components/ui/SectionWrapper";
-import GradientText from "@/components/ui/GradientText";
 
 interface Course {
   title: string;
@@ -32,7 +29,7 @@ const courses: Course[] = [
     price: 299,
     badge: "bestseller",
     color: "from-blue-600/20 to-cyan-600/20",
-    image: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=800&q=80",
+    image: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?q=80&w=600&auto=format&fit=crop",
   },
   {
     title: "React & Next.js — De Zéro au Déploiement",
@@ -44,7 +41,7 @@ const courses: Course[] = [
     price: 399,
     badge: "new",
     color: "from-cyan-600/20 to-emerald-600/20",
-    image: "https://images.unsplash.com/photo-1633356122544-f134324a6cee?auto=format&fit=crop&w=800&q=80",
+    image: "https://images.unsplash.com/photo-1633356122544-f134324a6cee?q=80&w=600&auto=format&fit=crop",
   },
   {
     title: "Intelligence Artificielle Pratique",
@@ -56,7 +53,7 @@ const courses: Course[] = [
     price: 499,
     badge: "ai",
     color: "from-purple-600/20 to-blue-600/20",
-    image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=800&q=80",
+    image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?q=80&w=600&auto=format&fit=crop",
   },
   {
     title: "DevOps & Cloud — AWS + Docker",
@@ -68,30 +65,7 @@ const courses: Course[] = [
     price: 349,
     progress: 42,
     color: "from-emerald-600/20 to-yellow-600/20",
-    image: "https://images.unsplash.com/photo-1667372393119-3d4c48d07fc9?auto=format&fit=crop&w=800&q=80",
-  },
-  {
-    title: "Masterclass UI/UX Design avec Figma",
-    category: "Design",
-    instructor: "Lina Berrada",
-    rating: 4.9,
-    students: 1530,
-    duration: "14h",
-    price: 249,
-    badge: "bestseller",
-    color: "from-pink-600/20 to-orange-600/20",
-    image: "https://images.unsplash.com/photo-1561070791-2526d30994b5?auto=format&fit=crop&w=800&q=80",
-  },
-  {
-    title: "Développement Mobile avec Flutter",
-    category: "Mobile",
-    instructor: "Hamza Tazi",
-    rating: 4.7,
-    students: 820,
-    duration: "22h",
-    price: 349,
-    color: "from-blue-500/20 to-indigo-600/20",
-    image: "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?auto=format&fit=crop&w=800&q=80",
+    image: "https://images.unsplash.com/photo-1667372393119-3d4c48d07fc9?q=80&w=600&auto=format&fit=crop",
   },
   {
     title: "Cybersécurité : Hacking Éthique",
@@ -103,61 +77,77 @@ const courses: Course[] = [
     price: 449,
     badge: "new",
     color: "from-red-600/20 to-rose-600/20",
-    image: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=800&q=80",
+    image: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=600&auto=format&fit=crop",
   },
   {
-    title: "Architecture Microservices avec Spring Boot",
+    title: "Architecture Microservices",
     category: "Backend",
     instructor: "Pr. Hassan El Fassi",
     rating: 4.5,
     students: 410,
     duration: "26h 30min",
     price: 399,
-    progress: 15,
     color: "from-green-600/20 to-teal-600/20",
-    image: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=800&q=80",
+    image: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=600&auto=format&fit=crop",
+  },
+  {
+    title: "Machine Learning Masterclass",
+    category: "IA & Data",
+    instructor: "Dr. Karim Fassi",
+    rating: 4.9,
+    students: 210,
+    duration: "35h",
+    price: 549,
+    badge: "ai",
+    color: "from-purple-600/20 to-indigo-600/20",
+    image: "https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?q=80&w=600&auto=format&fit=crop",
+  },
+  {
+    title: "Data Visualization avec PowerBI",
+    category: "Data",
+    instructor: "Nisrine Mansour",
+    rating: 4.7,
+    students: 520,
+    duration: "12h",
+    price: 199,
+    color: "from-yellow-400/20 to-orange-400/20",
+    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=600&auto=format&fit=crop",
+  },
+  {
+    title: "UX Design Strategy",
+    category: "Design",
+    instructor: "Lina Berrada",
+    rating: 4.9,
+    students: 310,
+    duration: "15h",
+    price: 299,
+    badge: "new",
+    color: "from-pink-400/20 to-purple-400/20",
+    image: "https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?q=80&w=600&auto=format&fit=crop",
   },
 ];
-
-function StarRating({ rating }: { rating: number }) {
-  return (
-    <div className="flex items-center gap-1">
-      {Array.from({ length: 5 }).map((_, i) => (
-        <Star
-          key={i}
-          size={12}
-          className={
-            i < Math.floor(rating)
-              ? "fill-[var(--amber-warn)] text-[var(--amber-warn)]"
-              : "text-[var(--text-muted)]"
-          }
-        />
-      ))}
-      <span className="text-[var(--text-xs)] text-[var(--text-secondary)] ml-1">{rating}</span>
-    </div>
-  );
-}
 
 export default function CoursesPreview({ initialCourses = courses }: { initialCourses?: Course[] }) {
   const shouldReduceMotion = useReducedMotion();
 
   return (
-    <SectionWrapper id="courses">
-      <FadeInChild className="text-center mb-16">
-        <p className="text-[var(--text-sm)] text-[var(--electric-blue)] font-medium uppercase tracking-widest mb-3">
-          Catalogue
-        </p>
-        <h2 className="text-3xl md:text-4xl font-bold tracking-[-0.03em] mb-4">
-          Nos cours{" "}
-          <GradientText>populaires</GradientText>
-        </h2>
-        <p className="text-[var(--text-secondary)] max-w-2xl mx-auto">
-          Des formations créées par des experts marocains et internationaux, mises à jour régulièrement.
-        </p>
+    <SectionWrapper id="courses" className="max-w-[1400px] mx-auto px-6 md:px-12 py-24">
+      <FadeInChild className="mb-12">
+        <span className="font-mono text-sm text-[var(--accent)] font-bold tracking-widest uppercase mb-4 block">Catalogue</span>
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+          <div>
+            <h2 className="text-4xl md:text-5xl font-display font-bold text-[var(--text-primary)] mb-4">
+              Explorez nos cours
+            </h2>
+            <p className="text-lg text-[var(--text-secondary)]">
+              Des formations créées par des experts marocains et internationaux, mises à jour régulièrement.
+            </p>
+          </div>
+        </div>
       </FadeInChild>
 
       <motion.div
-        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4"
+        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
         initial={shouldReduceMotion ? {} : "initial"}
         whileInView={shouldReduceMotion ? {} : "animate"}
         viewport={{ once: true }}
@@ -165,80 +155,62 @@ export default function CoursesPreview({ initialCourses = courses }: { initialCo
           animate: { transition: { staggerChildren: 0.08 } },
         }}
       >
-        {initialCourses.map((course) => (
+        {initialCourses.map((course, i) => (
           <motion.div
-            key={course.title}
+            key={course.title + i}
             variants={{
-              initial: { opacity: 0, y: 20, filter: "blur(8px)" },
-              animate: { opacity: 1, y: 0, filter: "blur(0px)", transition: { duration: 0.5 } },
+              initial: { opacity: 0, y: 20 },
+              animate: { opacity: 1, y: 0, transition: { duration: 0.5 } },
             }}
+            className="elite-card group cursor-pointer flex flex-col h-full bg-white"
           >
-            <GlassCard className="group cursor-pointer h-full overflow-hidden p-0">
-              {/* Thumbnail */}
-              <div className={`relative h-36 bg-gradient-to-br ${course.color} overflow-hidden`}>
-                <img src={course.image} alt={course.title} className="absolute inset-0 w-full h-full object-cover mix-blend-overlay opacity-60 group-hover:scale-105 transition-transform duration-500" />
-                <div className="absolute inset-0 bg-gradient-to-t from-[var(--bg-surface)] via-[var(--bg-surface)/20] to-transparent opacity-90" />
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <BookOpen size={32} className="text-white/20" />
+            <div className="relative h-48 w-full overflow-hidden rounded-t-[11px]">
+              <img src={course.image} alt={course.title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+              {course.badge && (
+                <div className={`absolute top-4 left-4 px-2.5 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider text-white ${course.badge === 'new' ? 'bg-[var(--success)]' : 'bg-[var(--gold)]'}`}>
+                  {course.badge === "bestseller" ? "Best Seller" : course.badge === "new" ? "Nouveau" : "IA incluse"}
                 </div>
-                {/* Hover overlay */}
-                <div className="absolute inset-0 bg-[rgba(0,0,0,0.6)] opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                  <span className="text-sm font-medium text-white">Voir le cours →</span>
-                </div>
-                {/* Badge */}
-                {course.badge && (
-                  <div className="absolute top-3 left-3">
-                    <Badge variant={course.badge}>
-                      {course.badge === "bestseller" ? "Best Seller" : course.badge === "new" ? "Nouveau" : "IA incluse"}
-                    </Badge>
+              )}
+            </div>
+            
+            <div className="p-6 flex flex-col flex-1">
+              <div className="inline-block px-2.5 py-1 rounded bg-[var(--accent-light)] text-[var(--accent)] font-medium text-xs mb-4 w-fit">
+                {course.category}
+              </div>
+              <h3 className="font-display font-bold text-xl leading-tight text-[var(--text-primary)] mb-2 group-hover:text-[var(--accent)] transition-colors line-clamp-2">
+                {course.title}
+              </h3>
+              <p className="text-sm text-[var(--text-secondary)] mb-4 flex items-center gap-2">
+                <UserPlus size={14} /> {course.instructor}
+              </p>
+              
+              <div className="flex items-center gap-4 text-sm font-medium text-[var(--text-muted)] mb-6">
+                <span className="flex items-center gap-1"><span className="text-yellow-400">★</span> {course.rating} ({course.students})</span>
+                <span className="flex items-center gap-1"><PlayCircle size={14} /> {course.duration}</span>
+              </div>
+              
+              <div className="mt-auto pt-4 border-t border-[var(--border)] flex items-center justify-between">
+                {course.progress != null ? (
+                  <div className="w-full">
+                    <div className="flex items-center justify-between text-xs mb-1">
+                      <span className="text-[var(--text-muted)] font-medium">Progression</span>
+                      <span className="text-[var(--success)] font-bold">{course.progress}%</span>
+                    </div>
+                    <div className="w-full h-1.5 rounded-full bg-[var(--bg-alt)] overflow-hidden">
+                      <div className="h-full bg-[var(--success)] rounded-full" style={{ width: `${course.progress}%` }} />
+                    </div>
                   </div>
+                ) : (
+                  <>
+                    <span className="font-mono font-bold text-xl text-[var(--text-primary)]">{course.price} MAD</span>
+                    <span className="text-sm font-medium text-[var(--accent)] flex items-center gap-1 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all">
+                      Voir <ArrowRight size={16} />
+                    </span>
+                  </>
                 )}
               </div>
-
-              {/* Content */}
-              <div className="p-4">
-                <p className="text-[10px] text-[var(--electric-blue)] font-medium uppercase tracking-wider mb-1">
-                  {course.category}
-                </p>
-                <h3 className="text-[var(--text-sm)] font-semibold mb-2 line-clamp-2 group-hover:text-[var(--electric-blue)] transition-colors">
-                  {course.title}
-                </h3>
-                <p className="text-[var(--text-xs)] text-[var(--text-muted)] mb-3">{course.instructor}</p>
-
-                <StarRating rating={course.rating} />
-
-                <div className="flex items-center gap-4 mt-3 text-[var(--text-xs)] text-[var(--text-muted)]">
-                  <div className="flex items-center gap-1">
-                    <Users size={11} /> {course.students}
-                  </div>
-                  <div className="flex items-center gap-1">
-                    <Clock size={11} /> {course.duration}
-                  </div>
-                </div>
-
-                {/* Price or Progress */}
-                <div className="mt-4 pt-3 border-t border-[var(--glass-border)]">
-                  {course.progress != null ? (
-                    <div>
-                      <div className="flex items-center justify-between text-[var(--text-xs)] mb-1">
-                        <span className="text-[var(--text-muted)]">Progression</span>
-                        <span className="text-[var(--emerald)] font-medium">{course.progress}%</span>
-                      </div>
-                      <div className="w-full h-1.5 rounded-full bg-[var(--bg-border)]">
-                        <div
-                          className="h-full rounded-full bg-[var(--emerald)]"
-                          style={{ width: `${course.progress}%` }}
-                        />
-                      </div>
-                    </div>
-                  ) : (
-                    <div className="flex items-center justify-between">
-                      <span className="text-lg font-bold">{course.price} <span className="text-[var(--text-xs)] text-[var(--text-muted)] font-normal">MAD</span></span>
-                    </div>
-                  )}
-                </div>
-              </div>
-            </GlassCard>
+            </div>
           </motion.div>
         ))}
       </motion.div>

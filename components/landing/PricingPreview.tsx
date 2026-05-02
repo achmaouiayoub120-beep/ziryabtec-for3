@@ -2,10 +2,7 @@
 
 import { motion, useReducedMotion } from "framer-motion";
 import { Check, Sparkles, Building } from "lucide-react";
-import Button from "@/components/ui/Button";
-import GlassCard from "@/components/ui/GlassCard";
 import SectionWrapper, { FadeInChild } from "@/components/ui/SectionWrapper";
-import GradientText from "@/components/ui/GradientText";
 
 interface PricingTier {
   name: string;
@@ -28,12 +25,12 @@ const tiers: PricingTier[] = [
       "3 cours gratuits",
       "Quiz basiques",
       "Certificats standard",
-      "Communauté Discord",
+      "Communauté",
       "Support email",
     ],
     cta: "Commencer gratuitement",
     highlighted: false,
-    icon: <Sparkles size={20} className="text-[var(--text-secondary)]" />,
+    icon: <Sparkles size={20} className="text-[var(--text-muted)]" />,
   },
   {
     name: "Pro",
@@ -44,7 +41,7 @@ const tiers: PricingTier[] = [
       "Accès illimité à tous les cours",
       "Tuteur IA contextuel",
       "Quiz auto-générés avancés",
-      "Certificats holographiques",
+      "Certificats premium",
       "Parcours adaptatifs IA",
       "Notes horodatées illimitées",
       "Téléchargement des ressources",
@@ -52,11 +49,11 @@ const tiers: PricingTier[] = [
     ],
     cta: "Essai gratuit 14 jours",
     highlighted: true,
-    icon: <Sparkles size={20} className="text-[var(--electric-blue)]" />,
+    icon: <Sparkles size={20} className="text-[var(--accent)]" />,
   },
   {
     name: "Entreprise",
-    price: "Sur mesure",
+    price: "Custom",
     period: "",
     description: "Formez vos équipes avec un suivi personnalisé et un reporting complet.",
     features: [
@@ -70,7 +67,7 @@ const tiers: PricingTier[] = [
     ],
     cta: "Contacter l'équipe",
     highlighted: false,
-    icon: <Building size={20} className="text-[var(--text-secondary)]" />,
+    icon: <Building size={20} className="text-[var(--text-muted)]" />,
   },
 ];
 
@@ -78,22 +75,21 @@ export default function PricingPreview() {
   const shouldReduceMotion = useReducedMotion();
 
   return (
-    <SectionWrapper id="pricing">
+    <SectionWrapper id="pricing" className="bg-white py-24">
       <FadeInChild className="text-center mb-16">
-        <p className="text-[var(--text-sm)] text-[var(--electric-blue)] font-medium uppercase tracking-widest mb-3">
+        <p className="text-sm text-[var(--accent)] font-bold uppercase tracking-widest mb-3">
           Tarifs
         </p>
-        <h2 className="text-3xl md:text-4xl font-bold tracking-[-0.03em] mb-4">
-          Un plan pour chaque{" "}
-          <GradientText>ambition</GradientText>
+        <h2 className="text-4xl md:text-5xl font-display font-bold tracking-tight mb-4 text-[var(--text-primary)]">
+          Un plan pour chaque <span className="text-[var(--accent)]">ambition</span>
         </h2>
-        <p className="text-[var(--text-secondary)] max-w-2xl mx-auto">
+        <p className="text-[var(--text-secondary)] max-w-2xl mx-auto text-lg">
           Commencez gratuitement, évoluez selon vos besoins. Tous les plans incluent l&apos;accès à la communauté.
         </p>
       </FadeInChild>
 
       <motion.div
-        className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto"
+        className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto"
         initial={shouldReduceMotion ? {} : "initial"}
         whileInView={shouldReduceMotion ? {} : "animate"}
         viewport={{ once: true }}
@@ -105,46 +101,41 @@ export default function PricingPreview() {
           <motion.div
             key={tier.name}
             variants={{
-              initial: { opacity: 0, y: 30, filter: "blur(8px)" },
-              animate: { opacity: 1, y: 0, filter: "blur(0px)", transition: { duration: 0.5 } },
+              initial: { opacity: 0, y: 30 },
+              animate: { opacity: 1, y: 0, transition: { duration: 0.5 } },
             }}
+            className="flex"
           >
-            <GlassCard
-              glow={tier.highlighted ? "blue" : "none"}
-              className={`relative h-full flex flex-col ${
-                tier.highlighted
-                  ? "border-[rgba(37,99,235,0.3)] shadow-[0_0_40px_rgba(37,99,235,0.15)]"
-                  : ""
-              }`}
-            >
-              {/* Popular badge */}
+            <div className={`elite-card p-8 bg-white relative flex flex-col w-full ${
+              tier.highlighted ? "border-2 border-[var(--accent)] shadow-xl scale-105 z-10" : "border border-[var(--border)]"
+            }`}>
               {tier.highlighted && (
-                <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 bg-[var(--electric-blue)] text-white text-[10px] font-bold uppercase tracking-wider rounded-full shadow-[var(--glow-blue)]">
+                <div className="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1 bg-[var(--accent)] text-white text-[10px] font-bold uppercase tracking-wider rounded-full">
                   Le plus populaire
                 </div>
               )}
 
-              <div className="mb-6">
-                <div className="flex items-center gap-2 mb-2">
+              <div className="mb-8">
+                <div className="flex items-center gap-2 mb-4">
                   {tier.icon}
-                  <h3 className="text-[var(--text-lg)] font-semibold">{tier.name}</h3>
+                  <h3 className="text-xl font-display font-bold text-[var(--text-primary)]">{tier.name}</h3>
                 </div>
-                <div className="flex items-baseline gap-1 mb-2">
-                  <span className="text-4xl font-bold tracking-tight">{tier.price}</span>
+                <div className="flex items-baseline gap-2 mb-4">
+                  <span className="text-5xl font-display font-bold text-[var(--text-primary)]">{tier.price}</span>
                   {tier.period && (
-                    <span className="text-[var(--text-sm)] text-[var(--text-muted)]">{tier.period}</span>
+                    <span className="text-sm font-medium text-[var(--text-muted)]">{tier.period}</span>
                   )}
                 </div>
-                <p className="text-[var(--text-sm)] text-[var(--text-secondary)]">{tier.description}</p>
+                <p className="text-sm text-[var(--text-secondary)] font-medium leading-relaxed">{tier.description}</p>
               </div>
 
-              <ul className="space-y-3 mb-8 flex-1">
+              <ul className="space-y-4 mb-10 flex-1">
                 {tier.features.map((feature) => (
-                  <li key={feature} className="flex items-start gap-2 text-[var(--text-sm)]">
+                  <li key={feature} className="flex items-start gap-3 text-sm font-medium">
                     <Check
-                      size={16}
-                      className={`shrink-0 mt-0.5 ${
-                        tier.highlighted ? "text-[var(--electric-blue)]" : "text-[var(--emerald)]"
+                      size={18}
+                      className={`shrink-0 ${
+                        tier.highlighted ? "text-[var(--accent)]" : "text-[var(--success)]"
                       }`}
                     />
                     <span className="text-[var(--text-secondary)]">{feature}</span>
@@ -152,14 +143,17 @@ export default function PricingPreview() {
                 ))}
               </ul>
 
-              <Button
-                variant={tier.highlighted ? "primary" : "secondary"}
-                className="w-full"
-                magnetic={tier.highlighted}
+              <a
+                href={tier.name === "Entreprise" ? "/contact" : "/register"}
+                className={`w-full py-4 rounded-xl font-bold text-center transition-all ${
+                  tier.highlighted 
+                    ? "bg-[var(--accent)] text-white hover:bg-[var(--accent-hover)] shadow-lg shadow-blue-200" 
+                    : "bg-[var(--bg-alt)] text-[var(--text-primary)] hover:bg-[var(--border)]"
+                }`}
               >
                 {tier.cta}
-              </Button>
-            </GlassCard>
+              </a>
+            </div>
           </motion.div>
         ))}
       </motion.div>

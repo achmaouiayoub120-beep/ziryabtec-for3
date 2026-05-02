@@ -21,10 +21,10 @@ export default function LogoMarquee() {
   const shouldReduceMotion = useReducedMotion();
 
   return (
-    <section className="relative py-12 overflow-hidden border-y border-[var(--glass-border)]">
+    <section className="relative py-12 overflow-hidden bg-transparent">
       {/* Edge fades */}
-      <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-[var(--bg-obsidian)] to-transparent z-10" />
-      <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-[var(--bg-obsidian)] to-transparent z-10" />
+      <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-[var(--bg)] to-transparent z-10" />
+      <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-[var(--bg)] to-transparent z-10" />
 
       <div className="flex items-center">
         <motion.div
@@ -34,7 +34,7 @@ export default function LogoMarquee() {
             x: {
               repeat: Infinity,
               repeatType: "loop",
-              duration: 25,
+              duration: 30,
               ease: "linear",
             },
           }}
@@ -42,12 +42,12 @@ export default function LogoMarquee() {
           {[...logos, ...logos].map((logo, i) => (
             <div
               key={`${logo.name}-${i}`}
-              className="flex items-center gap-2 text-[var(--text-muted)] hover:text-[var(--text-secondary)] transition-colors select-none"
+              className="flex items-center gap-3 text-[var(--text-muted)] hover:text-[var(--accent)] transition-colors select-none group"
             >
-              <div className="w-8 h-8 rounded-[var(--radius-sm)] bg-[var(--bg-surface)] border border-[var(--glass-border)] flex items-center justify-center p-1.5">
-                <img src={logo.url} alt={logo.name} className="w-full h-full object-contain" />
+              <div className="w-10 h-10 rounded-lg bg-white border border-[var(--border)] flex items-center justify-center p-2 shadow-sm group-hover:border-[var(--accent)] transition-all">
+                <img src={logo.url} alt={logo.name} className="w-full h-full object-contain grayscale group-hover:grayscale-0 transition-all" />
               </div>
-              <span className="text-[var(--text-sm)] font-medium tracking-tight">{logo.name}</span>
+              <span className="text-sm font-bold tracking-tight font-display">{logo.name}</span>
             </div>
           ))}
         </motion.div>

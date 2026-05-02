@@ -3,8 +3,6 @@
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import SectionWrapper, { FadeInChild } from "@/components/ui/SectionWrapper";
-import GlassCard from "@/components/ui/GlassCard";
-import GradientText from "@/components/ui/GradientText";
 
 export default function FAQsPage() {
   const faqs = [
@@ -18,7 +16,7 @@ export default function FAQsPage() {
     },
     {
       q: "Les certificats sont-ils reconnus ?",
-      a: "Absolument. Nos certificats sont générés avec une empreinte numérique unique (holographique) et un QR code, ce qui permet à tout employeur de vérifier leur authenticité directement sur notre plateforme."
+      a: "Absolument. Nos certificats sont générés avec une empreinte numérique unique et un QR code, ce qui permet à tout employeur de vérifier leur authenticité directement sur notre plateforme."
     },
     {
       q: "Proposez-vous des tarifs pour les étudiants ?",
@@ -29,24 +27,24 @@ export default function FAQsPage() {
   return (
     <>
       <Navbar />
-      <main className="flex-1 pt-32 pb-20 min-h-screen">
+      <main className="flex-1 pt-32 pb-20 min-h-screen bg-[var(--bg)]">
         <SectionWrapper id="faqs">
           <FadeInChild className="text-center mb-16">
-            <p className="text-[var(--text-sm)] text-[var(--electric-blue)] font-medium uppercase tracking-widest mb-3">
+            <p className="text-sm text-[var(--accent)] font-bold uppercase tracking-widest mb-3">
               Support
             </p>
-            <h1 className="text-4xl md:text-5xl font-bold tracking-[-0.03em] mb-6">
-              Questions <GradientText>Fréquentes</GradientText>
+            <h1 className="text-4xl md:text-5xl font-display font-bold tracking-tight mb-6 text-[var(--text-primary)]">
+              Questions <span className="text-[var(--accent)]">Fréquentes</span>
             </h1>
           </FadeInChild>
 
           <div className="max-w-3xl mx-auto space-y-4">
             {faqs.map((faq, index) => (
               <FadeInChild key={index}>
-                <GlassCard className="p-6">
-                  <h3 className="text-lg font-bold mb-2 text-[var(--text-primary)]">{faq.q}</h3>
-                  <p className="text-[var(--text-secondary)] text-sm leading-relaxed">{faq.a}</p>
-                </GlassCard>
+                <div className="elite-card p-8 bg-white">
+                  <h3 className="text-xl font-display font-bold mb-3 text-[var(--text-primary)]">{faq.q}</h3>
+                  <p className="text-[var(--text-secondary)] text-base leading-relaxed">{faq.a}</p>
+                </div>
               </FadeInChild>
             ))}
           </div>
