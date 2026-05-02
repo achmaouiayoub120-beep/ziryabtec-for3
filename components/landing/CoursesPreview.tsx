@@ -138,7 +138,7 @@ function StarRating({ rating }: { rating: number }) {
   );
 }
 
-export default function CoursesPreview() {
+export default function CoursesPreview({ initialCourses = courses }: { initialCourses?: Course[] }) {
   const shouldReduceMotion = useReducedMotion();
 
   return (
@@ -165,7 +165,7 @@ export default function CoursesPreview() {
           animate: { transition: { staggerChildren: 0.08 } },
         }}
       >
-        {courses.map((course) => (
+        {initialCourses.map((course) => (
           <motion.div
             key={course.title}
             variants={{

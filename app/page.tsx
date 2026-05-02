@@ -8,8 +8,27 @@ import StatsSection from "@/components/landing/StatsSection";
 import TestimonialsSection from "@/components/landing/TestimonialsSection";
 import PricingPreview from "@/components/landing/PricingPreview";
 import CTASection from "@/components/landing/CTASection";
+import { prisma } from "@/lib/db";
 
-export default function Home() {
+export default async function Home() {
+  const dbCourses = await prisma.course.findMany({
+    include: { instructor: true },
+    take: 8 // Only fetch the top 8 courses for the homepage
+  });
+
+  const formattedCourses = dbCourses.map(c => ({
+    title: c.title,
+    category: c.category,
+    instructor: c.instructor.name,
+    rating: c.rating,
+    students: c.students,
+    duration: c.duration,
+    price: c.price,
+    badge: c.badge as any,
+    color: c.color,
+    image: c.image
+  }));
+
   return (
     <>
       <Navbar />
@@ -17,7 +36,7 @@ export default function Home() {
         <HeroSection />
         <LogoMarquee />
         <BentoFeatures />
-        <CoursesPreview />
+        <CoursesPreview initialCourses={formattedCourses.length > 0 ? formattedCourses : undefined} />
         <StatsSection />
         <TestimonialsSection />
         <PricingPreview />
