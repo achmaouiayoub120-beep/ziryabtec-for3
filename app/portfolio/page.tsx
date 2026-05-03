@@ -19,7 +19,7 @@ export default function PortfolioPage() {
       category: "Full Stack",
       student: "Yasmine L.",
       desc: "Plateforme de vente de produits artisanaux marocains avec Next.js 14 et Stripe.",
-      image: "https://images.unsplash.com/photo-1502404689626-648af9859bb1?q=80&w=600&auto=format&fit=crop"
+      image: "https://images.unsplash.com/photo-1550989460-0adf9ea622e2?q=80&w=600&auto=format&fit=crop"
     },
     {
       title: "Gestion de Copropriété AI",
