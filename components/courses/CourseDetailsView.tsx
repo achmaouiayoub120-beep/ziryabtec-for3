@@ -100,7 +100,7 @@ export default function CourseDetailsView({ courseId }: { courseId?: string }) {
                 {courseData.prerequisitesTitle[language]}
               </h2>
               <ul className="space-y-4">
-                {courseData.prerequisites[language].map((req, index) => (
+                {(courseData.prerequisites[language] as string[]).map((req: string, index: number) => (
                   <li key={index} className="flex items-start gap-3 text-[var(--text-secondary)]">
                     <CheckCircle2 size={24} className="text-[var(--accent)] shrink-0" />
                     <span className="pt-0.5">{req}</span>
@@ -115,7 +115,7 @@ export default function CourseDetailsView({ courseId }: { courseId?: string }) {
                 {courseData.curriculumTitle[language]}
               </h2>
               <div className="space-y-4">
-                {courseData.curriculum.map((module) => (
+                {(courseData.curriculum as any[]).map((module: any) => (
                   <div 
                     key={module.id} 
                     className="border border-[var(--border)] rounded-xl overflow-hidden bg-white shadow-sm"
@@ -141,7 +141,7 @@ export default function CourseDetailsView({ courseId }: { courseId?: string }) {
                           transition={{ duration: 0.3, ease: "easeInOut" }}
                         >
                           <div className="px-6 pb-5 pt-2 space-y-3 bg-[var(--bg)] border-t border-[var(--border)]">
-                            {module.lessons.map((lesson, idx) => (
+                            {(module.lessons as any[]).map((lesson: any, idx: number) => (
                               <div key={idx} className="flex items-center justify-between py-2 group cursor-pointer">
                                 <div className="flex items-center gap-3">
                                   {lesson.type === 'video' ? (
