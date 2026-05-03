@@ -120,6 +120,35 @@ export const dictionaries = {
         }
       },
       rights: "© 2026 ZiryabTec. Tous droits réservés."
+    },
+    courseDetails: {
+      objectives: "Ce que vous allez apprendre",
+      audience: "À qui s'adresse cette formation ?",
+      prerequisites: "Pré-requis",
+      curriculum: "Programme de la formation",
+      sessions: {
+        title: "Types de session",
+        inter: { label: "Inter-entreprises", desc: "Formation avec d'autres professionnels", cta: "Demander un devis" },
+        intra: { label: "Intra-entreprise", desc: "Formation privée pour votre équipe", cta: "S'inscrire" },
+        surMesure: { label: "Sur Mesure", desc: "Programme personnalisé selon vos besoins", cta: "Demander un devis" }
+      },
+      form: {
+        name: "Nom complet",
+        email: "Email professionnel",
+        phone: "Téléphone",
+        company: "Entreprise",
+        message: "Votre message (optionnel)",
+        submit: "Envoyer la demande",
+        success: "Votre demande a été envoyée avec succès ! Un conseiller vous contactera sous 24h."
+      },
+      level: { beginner: "Débutant", intermediate: "Intermédiaire", advanced: "Avancé" },
+      ref: "Réf.",
+      duration: "Durée",
+      nextSession: "Prochaine session",
+      location: "Lieu",
+      priceFrom: "À partir de",
+      perGroup: "/ groupe",
+      instructor: "Formateur"
     }
   },
   en: {
@@ -243,6 +272,35 @@ export const dictionaries = {
         }
       },
       rights: "© 2026 ZiryabTec. All rights reserved."
+    },
+    courseDetails: {
+      objectives: "What you will learn",
+      audience: "Who is this course for?",
+      prerequisites: "Prerequisites",
+      curriculum: "Course Curriculum",
+      sessions: {
+        title: "Session Types",
+        inter: { label: "Inter-company", desc: "Training with other professionals", cta: "Request a quote" },
+        intra: { label: "Intra-company", desc: "Private training for your team", cta: "Enroll" },
+        surMesure: { label: "Customized", desc: "Customized program according to your needs", cta: "Request a quote" }
+      },
+      form: {
+        name: "Full Name",
+        email: "Professional Email",
+        phone: "Phone",
+        company: "Company",
+        message: "Your message (optional)",
+        submit: "Submit Request",
+        success: "Your request has been sent successfully! An advisor will contact you within 24h."
+      },
+      level: { beginner: "Beginner", intermediate: "Intermediate", advanced: "Advanced" },
+      ref: "Ref.",
+      duration: "Duration",
+      nextSession: "Next session",
+      location: "Location",
+      priceFrom: "From",
+      perGroup: "/ group",
+      instructor: "Instructor"
     }
   }
 };

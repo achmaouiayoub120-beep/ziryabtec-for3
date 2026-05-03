@@ -10,12 +10,11 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
   // In a real application, you would fetch the course by resolvedParams.id
   // Here we use our new getCourseById utility
   const { getCourseById } = await import('@/lib/data/mockCourse');
-  const fullCourse = getCourseById(resolvedParams.id);
-  const course = fullCourse.course;
+  const course = getCourseById(resolvedParams.id);
 
   return {
-    title: `${course.title.fr} | ZiryabTec`,
-    description: `Découvrez notre formation : ${course.title.fr} sur ZiryabTec.`,
+    title: `${course.fr.title} | ZiryabTec`,
+    description: `Découvrez notre formation : ${course.fr.title} sur ZiryabTec.`,
   };
 }
 
