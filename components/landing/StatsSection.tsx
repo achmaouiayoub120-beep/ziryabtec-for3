@@ -3,43 +3,48 @@
 import { GraduationCap, BookOpen, TrendingUp, Award } from "lucide-react";
 import AnimatedCounter from "@/components/ui/AnimatedCounter";
 import SectionWrapper, { FadeInChild } from "@/components/ui/SectionWrapper";
-
-const stats = [
-  {
-    icon: GraduationCap,
-    value: 2400,
-    suffix: "+",
-    label: "Apprenants actifs",
-    color: "var(--electric-blue)",
-    bgColor: "rgba(37,99,235,0.12)",
-  },
-  {
-    icon: BookOpen,
-    value: 48,
-    suffix: "",
-    label: "Cours disponibles",
-    color: "var(--neon-cyan)",
-    bgColor: "rgba(6,182,212,0.12)",
-  },
-  {
-    icon: TrendingUp,
-    value: 98,
-    suffix: "%",
-    label: "Taux de satisfaction",
-    color: "var(--emerald)",
-    bgColor: "rgba(16,185,129,0.12)",
-  },
-  {
-    icon: Award,
-    value: 1200,
-    suffix: "+",
-    label: "Certificats délivrés",
-    color: "var(--amber-warn)",
-    bgColor: "rgba(245,158,11,0.12)",
-  },
-];
+import { useLanguage } from "@/lib/i18n/LanguageContext";
+import { dictionaries } from "@/lib/i18n/dictionaries";
 
 export default function StatsSection() {
+  const { language } = useLanguage();
+  const t = dictionaries[language].stats;
+
+  const stats = [
+    {
+      icon: GraduationCap,
+      value: 2400,
+      suffix: "+",
+      label: t.items.learners,
+      color: "var(--electric-blue)",
+      bgColor: "rgba(37,99,235,0.12)",
+    },
+    {
+      icon: BookOpen,
+      value: 48,
+      suffix: "",
+      label: t.items.courses,
+      color: "var(--neon-cyan)",
+      bgColor: "rgba(6,182,212,0.12)",
+    },
+    {
+      icon: TrendingUp,
+      value: 98,
+      suffix: "%",
+      label: t.items.rating,
+      color: "var(--emerald)",
+      bgColor: "rgba(16,185,129,0.12)",
+    },
+    {
+      icon: Award,
+      value: 1200,
+      suffix: "+",
+      label: language === 'fr' ? "Certificats délivrés" : "Certificates issued", // fallback
+      color: "var(--amber-warn)",
+      bgColor: "rgba(245,158,11,0.12)",
+    },
+  ];
+
   return (
     <section className="relative py-20 md:py-28 overflow-hidden">
       {/* Background gradient */}

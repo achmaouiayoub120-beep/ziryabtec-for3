@@ -3,6 +3,8 @@
 import { motion, useReducedMotion } from "framer-motion";
 import { Check, Sparkles, Building } from "lucide-react";
 import SectionWrapper, { FadeInChild } from "@/components/ui/SectionWrapper";
+import { useLanguage } from "@/lib/i18n/LanguageContext";
+import { dictionaries } from "@/lib/i18n/dictionaries";
 
 interface PricingTier {
   name: string;
@@ -15,76 +17,101 @@ interface PricingTier {
   icon: React.ReactNode;
 }
 
-const tiers: PricingTier[] = [
-  {
-    name: "Gratuit",
-    price: "0",
-    period: "MAD / toujours",
-    description: "Parfait pour découvrir la plateforme et apprendre les bases.",
-    features: [
-      "3 cours gratuits",
-      "Quiz basiques",
-      "Certificats standard",
-      "Communauté",
-      "Support email",
-    ],
-    cta: "Commencer gratuitement",
-    highlighted: false,
-    icon: <Sparkles size={20} className="text-[var(--text-muted)]" />,
-  },
-  {
-    name: "Pro",
-    price: "249",
-    period: "MAD / mois",
-    description: "L'expérience complète pour les apprenants sérieux.",
-    features: [
-      "Accès illimité à tous les cours",
-      "Tuteur IA contextuel",
-      "Quiz auto-générés avancés",
-      "Certificats premium",
-      "Parcours adaptatifs IA",
-      "Notes horodatées illimitées",
-      "Téléchargement des ressources",
-      "Support prioritaire",
-    ],
-    cta: "Essai gratuit 14 jours",
-    highlighted: true,
-    icon: <Sparkles size={20} className="text-[var(--accent)]" />,
-  },
-  {
-    name: "Entreprise",
-    price: "Custom",
-    period: "",
-    description: "Formez vos équipes avec un suivi personnalisé et un reporting complet.",
-    features: [
-      "Tout le plan Pro",
-      "Dashboard administrateur",
-      "Reporting & analytics",
-      "SSO / SAML",
-      "Cours privés personnalisés",
-      "Account manager dédié",
-      "SLA garanti",
-    ],
-    cta: "Contacter l'équipe",
-    highlighted: false,
-    icon: <Building size={20} className="text-[var(--text-muted)]" />,
-  },
-];
-
 export default function PricingPreview() {
   const shouldReduceMotion = useReducedMotion();
+  const { language } = useLanguage();
+  const t = dictionaries[language].pricing;
+
+  const tiers: PricingTier[] = [
+    {
+      name: t.plans.basic.name,
+      price: "0",
+      period: language === 'fr' ? "MAD / toujours" : "MAD / forever",
+      description: t.plans.basic.desc,
+      features: language === 'fr' ? [
+        "3 cours gratuits",
+        "Quiz basiques",
+        "Certificats standard",
+        "Communauté",
+        "Support email",
+      ] : [
+        "3 free courses",
+        "Basic quizzes",
+        "Standard certificates",
+        "Community access",
+        "Email support",
+      ],
+      cta: t.plans.basic.cta,
+      highlighted: false,
+      icon: <Sparkles size={20} className="text-[var(--text-muted)]" />,
+    },
+    {
+      name: t.plans.pro.name,
+      price: "249",
+      period: language === 'fr' ? "MAD / mois" : "MAD / month",
+      description: t.plans.pro.desc,
+      features: language === 'fr' ? [
+        "Accès illimité à tous les cours",
+        "Tuteur IA contextuel",
+        "Quiz auto-générés avancés",
+        "Certificats premium",
+        "Parcours adaptatifs IA",
+        "Notes horodatées illimitées",
+        "Téléchargement des ressources",
+        "Support prioritaire",
+      ] : [
+        "Unlimited access to all courses",
+        "Contextual AI Tutor",
+        "Advanced auto-generated quizzes",
+        "Premium certificates",
+        "Adaptive AI paths",
+        "Unlimited timestamped notes",
+        "Resource downloads",
+        "Priority support",
+      ],
+      cta: t.plans.pro.cta,
+      highlighted: true,
+      icon: <Sparkles size={20} className="text-[var(--accent)]" />,
+    },
+    {
+      name: t.plans.elite.name,
+      price: "Custom",
+      period: "",
+      description: t.plans.elite.desc,
+      features: language === 'fr' ? [
+        "Tout le plan Pro",
+        "Dashboard administrateur",
+        "Reporting & analytics",
+        "SSO / SAML",
+        "Cours privés personnalisés",
+        "Account manager dédié",
+        "SLA garanti",
+      ] : [
+        "Everything in Pro",
+        "Admin dashboard",
+        "Reporting & analytics",
+        "SSO / SAML",
+        "Custom private courses",
+        "Dedicated account manager",
+        "Guaranteed SLA",
+      ],
+      cta: t.plans.elite.cta,
+      highlighted: false,
+      icon: <Building size={20} className="text-[var(--text-muted)]" />,
+    },
+  ];
 
   return (
     <SectionWrapper id="pricing" className="bg-white py-24">
       <FadeInChild className="text-center mb-16">
         <p className="text-sm text-[var(--accent)] font-bold uppercase tracking-widest mb-3">
-          Tarifs
+          {t.subtitle}
         </p>
         <h2 className="text-4xl md:text-5xl font-display font-bold tracking-tight mb-4 text-[var(--text-primary)]">
-          Un plan pour chaque <span className="text-[var(--accent)]">ambition</span>
+          {t.title}
         </h2>
         <p className="text-[var(--text-secondary)] max-w-2xl mx-auto text-lg">
-          Commencez gratuitement, évoluez selon vos besoins. Tous les plans incluent l&apos;accès à la communauté.
+          {t.description}
         </p>
       </FadeInChild>
 
@@ -111,7 +138,7 @@ export default function PricingPreview() {
             }`}>
               {tier.highlighted && (
                 <div className="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1 bg-[var(--accent)] text-white text-[10px] font-bold uppercase tracking-wider rounded-full">
-                  Le plus populaire
+                  {language === 'fr' ? 'Le plus populaire' : 'Most Popular'}
                 </div>
               )}
 

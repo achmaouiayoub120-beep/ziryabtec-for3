@@ -6,17 +6,13 @@ import Button from "@/components/ui/Button";
 import AnimatedCounter from "@/components/ui/AnimatedCounter";
 import GradientText from "@/components/ui/GradientText";
 import { transitions } from "@/lib/utils";
-
-const stats = [
-  { value: 2400, suffix: "+", label: "Apprenants" },
-  { value: 48, label: "Cours" },
-  { value: 98, suffix: "%", label: "Satisfaction" },
-];
-
-const titleWords = ["Apprenez.", "Progressez.", "Prouvez-le."];
+import { useLanguage } from "@/lib/i18n/LanguageContext";
+import { dictionaries } from "@/lib/i18n/dictionaries";
 
 export default function HeroSection() {
   const shouldReduceMotion = useReducedMotion();
+  const { language } = useLanguage();
+  const t = dictionaries[language].hero;
 
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-16">
@@ -44,13 +40,13 @@ export default function HeroSection() {
             className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass text-[var(--text-sm)] text-[var(--text-secondary)] mb-8"
           >
             <Sparkles size={14} className="text-[var(--electric-blue)]" />
-            <span>Plateforme N°1 au Maroc</span>
+            <span>{t.badge}</span>
             <span className="w-1.5 h-1.5 rounded-full bg-[var(--emerald)] animate-pulse" />
           </motion.div>
 
           {/* Hero Title — Staggered Word Reveal */}
           <h1 className="mb-6">
-            {titleWords.map((word, i) => (
+            {t.titleWords.map((word, i) => (
               <motion.span
                 key={word}
                 initial={shouldReduceMotion ? {} : { opacity: 0, y: 30, filter: "blur(10px)" }}
@@ -76,11 +72,8 @@ export default function HeroSection() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ ...transitions.enter, delay: 0.55 }}
             className="text-[var(--text-lg)] md:text-xl text-[var(--text-secondary)] max-w-xl mx-auto lg:mx-0 mb-10 leading-relaxed"
-          >
-            La première plateforme d&apos;apprentissage tech{" "}
-            <span className="text-[var(--text-primary)] font-medium">ultra-premium</span> du Maroc.
-            Tuteur IA, parcours adaptatifs, certificats vérifiables.
-          </motion.p>
+            dangerouslySetInnerHTML={{ __html: t.subtitle.replace("ultra-premium", `<span class="text-[var(--text-primary)] font-medium">ultra-premium</span>`) }}
+          />
 
           {/* CTAs */}
           <motion.div
@@ -90,11 +83,11 @@ export default function HeroSection() {
             className="flex flex-col sm:flex-row items-center gap-4 mb-12"
           >
             <Button variant="primary" size="lg" magnetic className="animate-pulse-glow">
-              Commencer gratuitement
+              {t.ctaPrimary}
             </Button>
             <Button variant="secondary" size="lg">
               <Play size={16} className="text-[var(--electric-blue)]" />
-              Explorer les cours
+              {t.ctaSecondary}
             </Button>
           </motion.div>
 
@@ -105,11 +98,11 @@ export default function HeroSection() {
             transition={{ ...transitions.enter, delay: 0.85 }}
             className="flex items-center justify-center lg:justify-start gap-8 md:gap-12"
           >
-            {stats.map((stat, i) => (
+            {t.stats.map((stat, i) => (
               <div key={stat.label} className="text-center">
                 <div className="text-2xl md:text-3xl font-bold text-[var(--text-primary)]">
                   <AnimatedCounter
-                    value={stat.value}
+                    value={i === 0 ? 2400 : i === 1 ? 48 : 98}
                     suffix={stat.suffix || ""}
                     duration={2 + i * 0.3}
                   />
@@ -144,8 +137,8 @@ export default function HeroSection() {
                 <div className="flex items-center gap-3">
                   <div className="w-8 h-8 rounded-full bg-[var(--electric-blue)] flex items-center justify-center text-xs text-white font-bold">A</div>
                   <div>
-                    <div className="text-xs font-medium">Bonjour, Ayoub</div>
-                    <div className="text-[10px] text-[var(--text-muted)]">Niveau Intermédiaire</div>
+                    <div className="text-xs font-medium">{t.dashboard.greeting}</div>
+                    <div className="text-[10px] text-[var(--text-muted)]">{t.dashboard.level}</div>
                   </div>
                 </div>
                 <div className="flex items-center gap-2">
@@ -158,22 +151,22 @@ export default function HeroSection() {
               <div className="grid grid-cols-3 gap-3">
                 {/* Progress Card */}
                 <div className="col-span-2 rounded-[var(--radius-sm)] bg-[var(--bg-elevated)] p-4">
-                  <div className="text-[10px] text-[var(--text-muted)] mb-2">Cours actif</div>
-                  <div className="text-xs font-medium mb-3">Python Avancé & Data Science</div>
+                  <div className="text-[10px] text-[var(--text-muted)] mb-2">{t.dashboard.activeCourse}</div>
+                  <div className="text-xs font-medium mb-3">{t.dashboard.courseName}</div>
                   <div className="w-full h-2 rounded-full bg-[var(--bg-border)]">
                     <div className="h-full rounded-full bg-gradient-to-r from-[var(--electric-blue)] to-[var(--neon-cyan)] w-[65%]" />
                   </div>
-                  <div className="text-[10px] text-[var(--text-muted)] mt-1">65% complété</div>
+                  <div className="text-[10px] text-[var(--text-muted)] mt-1">{t.dashboard.completed}</div>
                 </div>
                 {/* Rank Card */}
                 <div className="rounded-[var(--radius-sm)] bg-[var(--bg-elevated)] p-4 flex flex-col items-center justify-center">
-                  <div className="text-[10px] text-[var(--text-muted)] mb-1">Rank</div>
+                  <div className="text-[10px] text-[var(--text-muted)] mb-1">{t.dashboard.rankLabel}</div>
                   <div className="text-lg font-bold text-[var(--neon-cyan)]">#42</div>
-                  <div className="text-[10px] text-[var(--text-muted)]">Maroc</div>
+                  <div className="text-[10px] text-[var(--text-muted)]">{t.dashboard.rankCountry}</div>
                 </div>
                 {/* Chart Area */}
                 <div className="col-span-2 rounded-[var(--radius-sm)] bg-[var(--bg-elevated)] p-4">
-                  <div className="text-[10px] text-[var(--text-muted)] mb-2">Activité · 30 jours</div>
+                  <div className="text-[10px] text-[var(--text-muted)] mb-2">{t.dashboard.activity}</div>
                   <svg viewBox="0 0 200 50" className="w-full h-10">
                     <defs>
                       <linearGradient id="chartGrad" x1="0" y1="0" x2="0" y2="1">
@@ -187,9 +180,9 @@ export default function HeroSection() {
                 </div>
                 {/* AI Card */}
                 <div className="rounded-[var(--radius-sm)] bg-[var(--bg-elevated)] p-4">
-                  <div className="text-[10px] text-[var(--text-muted)] mb-1">Tuteur IA</div>
+                  <div className="text-[10px] text-[var(--text-muted)] mb-1">{t.dashboard.aiTutor}</div>
                   <div className="text-lg"><Bot size={18} /></div>
-                  <div className="text-[10px] text-[var(--electric-blue)]">En ligne</div>
+                  <div className="text-[10px] text-[var(--electric-blue)]">{t.dashboard.online}</div>
                 </div>
               </div>
             </div>
@@ -204,7 +197,7 @@ export default function HeroSection() {
         transition={{ delay: 1.5 }}
         className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
       >
-        <span className="text-[10px] text-[var(--text-muted)] uppercase tracking-widest">Découvrir</span>
+        <span className="text-[10px] text-[var(--text-muted)] uppercase tracking-widest">{t.scroll}</span>
         <motion.div
           animate={{ y: [0, 8, 0] }}
           transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}

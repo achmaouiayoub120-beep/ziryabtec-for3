@@ -2,27 +2,53 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
-import { Menu, X, Phone, Mail, MapPin, Instagram, Youtube, Linkedin, UserCircle } from "lucide-react";
+import { Menu, X, Phone, Mail, MapPin, Instagram, Youtube, Linkedin, UserCircle, Globe } from "lucide-react";
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
+import { useLanguage } from "@/lib/i18n/LanguageContext";
 
 function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
+const translations = {
+  fr: {
+    home: "Accueil",
+    courses: "Formations",
+    portfolio: "Portfolio",
+    partners: "Partenaires",
+    faqs: "FAQ",
+    about: "À propos",
+    profile: "Mon Profil",
+    register: "S'inscrire gratuitement"
+  },
+  en: {
+    home: "Home",
+    courses: "Courses",
+    portfolio: "Portfolio",
+    partners: "Partners",
+    faqs: "FAQs",
+    about: "About Us",
+    profile: "My Profile",
+    register: "Sign Up Free"
+  }
+};
+
 const navLinks = [
-  { label: "Home", href: "/" },
-  { label: "Courses", href: "/courses" },
-  { label: "Portfolio", href: "/portfolio" },
-  { label: "Partners", href: "/partners" },
-  { label: "FAQs", href: "/faqs" },
-  { label: "About Us", href: "/about" },
+  { key: "home", href: "/" },
+  { key: "courses", href: "/courses" },
+  { key: "portfolio", href: "/portfolio" },
+  { key: "partners", href: "/partners" },
+  { key: "faqs", href: "/faqs" },
+  { key: "about", href: "/about" },
 ];
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   const shouldReduceMotion = useReducedMotion();
+  const { language, toggleLanguage } = useLanguage();
+  const t = translations[language];
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 10);
@@ -77,38 +103,53 @@ export default function Navbar() {
           <div className="hidden lg:flex items-center gap-8">
             {navLinks.map((link) => (
               <a
-                key={link.label}
+                key={link.key}
                 href={link.href}
                 className="text-[15px] font-medium text-[var(--text-secondary)] hover:text-[var(--accent)] transition-colors relative group"
               >
-                {link.label}
+                {t[link.key as keyof typeof t]}
                 <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-[var(--accent)] transition-all duration-300 group-hover:w-full" />
               </a>
             ))}
           </div>
 
-          {/* Desktop CTA */}
-          <div className="hidden lg:flex items-center gap-4">
-            <a href="/profile" className="flex items-center gap-2 text-[15px] font-medium text-[var(--text-secondary)] hover:text-[var(--accent)] transition-colors">
-              <UserCircle size={20} />
-              Mon Profil
-            </a>
-            <a 
-              href="/register"
-              className="bg-[var(--accent)] hover:bg-[var(--accent-hover)] text-white px-5 py-2.5 rounded-[8px] font-medium text-[15px] transition-all transform hover:scale-[0.98] active:scale-95 shadow-sm hover:shadow-md flex items-center gap-2"
+          {/* Right Actions */}
+          <div className="flex items-center gap-2 md:gap-4">
+            {/* Language Switcher - ALWAYS VISIBLE and PREMIUM */}
+            <button
+              onClick={(e) => {
+                e.preventDefault();
+                toggleLanguage();
+              }}
+              className="flex items-center gap-2 text-[13px] font-bold text-white bg-[var(--accent)] hover:bg-[var(--accent-hover)] px-4 py-2 rounded-full shadow-lg transition-all active:scale-95 z-50"
+              aria-label="Toggle Language"
             >
-              S'inscrire gratuitement
-            </a>
-          </div>
+              <Globe size={16} className="text-white" />
+              <span className="tracking-wide">{language.toUpperCase()}</span>
+            </button>
 
-          {/* Mobile Toggle */}
-          <button
-            className="lg:hidden p-2 text-[var(--text-primary)] hover:text-[var(--accent)] transition-colors"
-            onClick={() => setIsMobileOpen(!isMobileOpen)}
-            aria-label={isMobileOpen ? "Fermer le menu" : "Ouvrir le menu"}
-          >
-            {isMobileOpen ? <X size={28} /> : <Menu size={28} />}
-          </button>
+            <div className="hidden lg:flex items-center gap-4">
+              <a href="/profile" className="flex items-center gap-2 text-[15px] font-medium text-[var(--text-secondary)] hover:text-[var(--accent)] transition-colors">
+                <UserCircle size={20} />
+                {t.profile}
+              </a>
+              <a 
+                href="/register"
+                className="bg-[var(--accent)] hover:bg-[var(--accent-hover)] text-white px-5 py-2.5 rounded-[8px] font-medium text-[15px] transition-all transform hover:scale-[0.98] active:scale-95 shadow-sm hover:shadow-md flex items-center gap-2"
+              >
+                {t.register}
+              </a>
+            </div>
+
+            {/* Mobile Toggle */}
+            <button
+              className="lg:hidden p-2 text-[var(--text-primary)] hover:text-[var(--accent)] transition-colors"
+              onClick={() => setIsMobileOpen(!isMobileOpen)}
+              aria-label={isMobileOpen ? "Fermer le menu" : "Ouvrir le menu"}
+            >
+              {isMobileOpen ? <X size={28} /> : <Menu size={28} />}
+            </button>
+          </div>
         </nav>
       </motion.header>
 
@@ -123,23 +164,33 @@ export default function Navbar() {
             className="fixed inset-0 top-[112px] md:top-[120px] z-30 bg-white lg:hidden border-t border-[var(--border)]"
           >
             <div className="flex flex-col p-8 gap-6 overflow-y-auto h-full pb-32">
+              <button
+                onClick={toggleLanguage}
+                className="flex items-center justify-center gap-2 text-lg font-medium text-[var(--text-primary)] bg-[var(--bg)] border border-[var(--border)] rounded-md py-2 px-4 w-full"
+              >
+                <Globe size={20} />
+                {language === 'fr' ? 'Passer en Anglais (EN)' : 'Switch to French (FR)'}
+              </button>
+
+              <div className="h-px bg-[var(--border)] my-2 w-full" />
+
               {navLinks.map((link, i) => (
                 <motion.a
-                  key={link.label}
+                  key={link.key}
                   href={link.href}
                   initial={{ opacity: 0, x: 20 }}
                   animate={{ opacity: 1, x: 0, transition: { delay: i * 0.05 } }}
                   onClick={() => setIsMobileOpen(false)}
                   className="text-2xl font-display font-semibold text-[var(--text-primary)] hover:text-[var(--accent)] transition-colors"
                 >
-                  {link.label}
+                  {t[link.key as keyof typeof t]}
                 </motion.a>
               ))}
               
               <div className="h-px bg-[var(--border)] my-4 w-full" />
               
               <a href="/profile" onClick={() => setIsMobileOpen(false)} className="flex items-center gap-3 text-lg font-medium text-[var(--text-secondary)]">
-                <UserCircle size={24} /> Mon Profil
+                <UserCircle size={24} /> {t.profile}
               </a>
               
               <a 
@@ -147,7 +198,7 @@ export default function Navbar() {
                 onClick={() => setIsMobileOpen(false)} 
                 className="bg-[var(--accent)] text-white text-center px-6 py-4 rounded-[8px] font-medium text-lg mt-4"
               >
-                S'inscrire gratuitement
+                {t.register}
               </a>
             </div>
           </motion.div>

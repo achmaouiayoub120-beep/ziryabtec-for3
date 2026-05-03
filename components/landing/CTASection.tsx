@@ -5,9 +5,13 @@ import { ArrowRight } from "lucide-react";
 import Button from "@/components/ui/Button";
 import GradientText from "@/components/ui/GradientText";
 import { transitions } from "@/lib/utils";
+import { useLanguage } from "@/lib/i18n/LanguageContext";
+import { dictionaries } from "@/lib/i18n/dictionaries";
 
 export default function CTASection() {
   const shouldReduceMotion = useReducedMotion();
+  const { language } = useLanguage();
+  const t = dictionaries[language].cta;
 
   return (
     <section className="relative py-24 md:py-32 overflow-hidden">
@@ -28,22 +32,21 @@ export default function CTASection() {
 
           <div className="relative">
             <h2 className="text-3xl md:text-5xl font-bold tracking-[-0.03em] mb-4">
-              Prêt à transformer{" "}
-              <GradientText>votre carrière</GradientText>
+              {language === 'fr' ? 'Prêt à transformer ' : 'Ready to transform '}
+              <GradientText>{language === 'fr' ? 'votre carrière' : 'your career'}</GradientText>
               <span className="text-[var(--text-primary)]"> ?</span>
             </h2>
             <p className="text-[var(--text-lg)] text-[var(--text-secondary)] max-w-xl mx-auto mb-10">
-              Rejoignez des milliers d&apos;apprenants marocains qui ont déjà fait le choix de l&apos;excellence.
-              Commencez gratuitement, sans carte bancaire.
+              {t.subtitle}
             </p>
 
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
               <Button variant="primary" size="lg" magnetic className="animate-pulse-glow">
-                Créer mon compte gratuit
+                {t.primaryBtn}
                 <ArrowRight size={18} />
               </Button>
               <p className="text-[var(--text-xs)] text-[var(--text-muted)]">
-                ✓ Sans carte bancaire &nbsp;·&nbsp; ✓ 3 cours offerts &nbsp;·&nbsp; ✓ Annulation libre
+                {language === 'fr' ? '✓ Sans carte bancaire  ·  ✓ 3 cours offerts  ·  ✓ Annulation libre' : '✓ No credit card required  ·  ✓ 3 free courses  ·  ✓ Cancel anytime'}
               </p>
             </div>
 

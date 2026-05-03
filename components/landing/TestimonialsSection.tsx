@@ -5,6 +5,8 @@ import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { Star, ChevronLeft, ChevronRight, BadgeCheck } from "lucide-react";
 import SectionWrapper, { FadeInChild } from "@/components/ui/SectionWrapper";
 import GradientText from "@/components/ui/GradientText";
+import { useLanguage } from "@/lib/i18n/LanguageContext";
+import { dictionaries } from "@/lib/i18n/dictionaries";
 
 interface Testimonial {
   name: string;
@@ -15,57 +17,66 @@ interface Testimonial {
   avatar: string;
 }
 
-const testimonials: Testimonial[] = [
-  {
-    name: "Fatima Zahra El Idrissi",
-    role: "Développeuse Full-Stack",
-    company: "OCP Group",
-    quote:
-      "ZiryabTec a transformé ma façon d'apprendre. Le tuteur IA est incroyable — il répond comme un vrai formateur, avec les timestamps de la vidéo en bonus. J'ai décroché ma promotion grâce aux compétences acquises ici.",
-    rating: 5,
-    avatar: "FZ",
-  },
-  {
-    name: "Youssef Amrani",
-    role: "Data Scientist",
-    company: "Capgemini Maroc",
-    quote:
-      "Le parcours Python & Data Science est le meilleur contenu francophone que j'ai trouvé. La qualité des cours surpasse largement ce qu'on trouve sur les plateformes internationales. Et tout ça à un prix accessible.",
-    rating: 5,
-    avatar: "YA",
-  },
-  {
-    name: "Nadia Bennani",
-    role: "Étudiante en Informatique",
-    company: "ENSIAS",
-    quote:
-      "En tant qu'étudiante, j'apprécie la flexibilité et la qualité premium. Les certificats vérifiables m'ont aidée à me démarquer lors de mes candidatures de stage. L'interface est magnifique aussi!",
-    rating: 5,
-    avatar: "NB",
-  },
-  {
-    name: "Karim Tazi",
-    role: "CTO",
-    company: "StartupFlow",
-    quote:
-      "J'ai formé toute mon équipe de développeurs via ZiryabTec. Le dashboard d'entreprise nous permet de suivre la progression de chacun. ROI évident dès le premier mois.",
-    rating: 4,
-    avatar: "KT",
-  },
-  {
-    name: "Salma Chraibi",
-    role: "DevOps Engineer",
-    company: "Freelance",
-    quote:
-      "Le cours DevOps & Cloud est exceptionnellement bien structuré. Les quiz générés par l'IA après chaque chapitre m'ont vraiment aidée à consolider mes connaissances. بزاف مزيان!",
-    rating: 5,
-    avatar: "SC",
-  },
-];
-
 export default function TestimonialsSection() {
   const [current, setCurrent] = useState(0);
   const shouldReduceMotion = useReducedMotion();
+  const { language } = useLanguage();
+  const t_dict = dictionaries[language].testimonials;
+
+  const testimonials: Testimonial[] = [
+    {
+      name: "Fatima Zahra El Idrissi",
+      role: language === 'fr' ? "Développeuse Full-Stack" : "Full-Stack Developer",
+      company: "OCP Group",
+      quote: language === 'fr' 
+        ? "ZiryabTec a transformé ma façon d'apprendre. Le tuteur IA est incroyable — il répond comme un vrai formateur, avec les timestamps de la vidéo en bonus. J'ai décroché ma promotion grâce aux compétences acquises ici."
+        : "ZiryabTec transformed the way I learn. The AI tutor is amazing — it replies like a real instructor, with video timestamps as a bonus. I got promoted thanks to the skills I learned here.",
+      rating: 5,
+      avatar: "FZ",
+    },
+    {
+      name: "Youssef Amrani",
+      role: "Data Scientist",
+      company: "Capgemini",
+      quote: language === 'fr'
+        ? "Le parcours Python & Data Science est le meilleur contenu francophone que j'ai trouvé. La qualité des cours surpasse largement ce qu'on trouve sur les plateformes internationales. Et tout ça à un prix accessible."
+        : "The Python & Data Science track is the best content I've found. The quality of the courses far surpasses what you find on international platforms. And all this at an accessible price.",
+      rating: 5,
+      avatar: "YA",
+    },
+    {
+      name: "Nadia Bennani",
+      role: language === 'fr' ? "Étudiante en Informatique" : "Computer Science Student",
+      company: "ENSIAS",
+      quote: language === 'fr'
+        ? "En tant qu'étudiante, j'apprécie la flexibilité et la qualité premium. Les certificats vérifiables m'ont aidée à me démarquer lors de mes candidatures de stage. L'interface est magnifique aussi!"
+        : "As a student, I appreciate the flexibility and premium quality. Verifiable certificates helped me stand out in my internship applications. The interface is gorgeous too!",
+      rating: 5,
+      avatar: "NB",
+    },
+    {
+      name: "Karim Tazi",
+      role: "CTO",
+      company: "StartupFlow",
+      quote: language === 'fr'
+        ? "J'ai formé toute mon équipe de développeurs via ZiryabTec. Le dashboard d'entreprise nous permet de suivre la progression de chacun. ROI évident dès le premier mois."
+        : "I trained my entire team of developers via ZiryabTec. The enterprise dashboard allows us to track everyone's progress. Evident ROI from the first month.",
+      rating: 4,
+      avatar: "KT",
+    },
+    {
+      name: "Salma Chraibi",
+      role: "DevOps Engineer",
+      company: "Freelance",
+      quote: language === 'fr'
+        ? "Le cours DevOps & Cloud est exceptionnellement bien structuré. Les quiz générés par l'IA après chaque chapitre m'ont vraiment aidée à consolider mes connaissances. بزاف مزيان!"
+        : "The DevOps & Cloud course is exceptionally well structured. AI-generated quizzes after each chapter really helped me consolidate my knowledge. بزاف مزيان!",
+      rating: 5,
+      avatar: "SC",
+    },
+  ];
+
+
 
   const next = () => setCurrent((c) => (c + 1) % testimonials.length);
   const prev = () => setCurrent((c) => (c - 1 + testimonials.length) % testimonials.length);
@@ -76,11 +87,11 @@ export default function TestimonialsSection() {
     <SectionWrapper id="testimonials" className="overflow-hidden">
       <FadeInChild className="text-center mb-16">
         <p className="text-[var(--text-sm)] text-[var(--electric-blue)] font-medium uppercase tracking-widest mb-3">
-          Témoignages
+          {t_dict.subtitle}
         </p>
         <h2 className="text-3xl md:text-4xl font-bold tracking-[-0.03em] mb-4">
-          Ce que disent nos{" "}
-          <GradientText>apprenants</GradientText>
+          {language === 'fr' ? 'Ce que disent nos ' : 'What our '}
+          <GradientText>{language === 'fr' ? 'apprenants' : 'learners say'}</GradientText>
         </h2>
       </FadeInChild>
 

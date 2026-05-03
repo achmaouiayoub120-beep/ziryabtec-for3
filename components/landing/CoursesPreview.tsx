@@ -3,6 +3,9 @@
 import { motion, useReducedMotion } from "framer-motion";
 import { PlayCircle, UserPlus, ArrowRight } from "lucide-react";
 import SectionWrapper, { FadeInChild } from "@/components/ui/SectionWrapper";
+import Link from "next/link";
+import { useLanguage } from "@/lib/i18n/LanguageContext";
+import { dictionaries, translatedCourses } from "@/lib/i18n/dictionaries";
 
 interface Course {
   title: string;
@@ -127,20 +130,22 @@ const courses: Course[] = [
   },
 ];
 
-export default function CoursesPreview({ initialCourses = courses }: { initialCourses?: Course[] }) {
+export default function CoursesPreview() {
   const shouldReduceMotion = useReducedMotion();
+  const { language } = useLanguage();
+  const t = dictionaries[language].courses;
 
   return (
     <SectionWrapper id="courses" className="max-w-[1400px] mx-auto px-6 md:px-12 py-24">
       <FadeInChild className="mb-12">
-        <span className="font-mono text-sm text-[var(--accent)] font-bold tracking-widest uppercase mb-4 block">Catalogue</span>
+        <span className="font-mono text-sm text-[var(--accent)] font-bold tracking-widest uppercase mb-4 block">{t.catalog}</span>
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
           <div>
             <h2 className="text-4xl md:text-5xl font-display font-bold text-[var(--text-primary)] mb-4">
-              Explorez nos cours
+              {t.title}
             </h2>
             <p className="text-lg text-[var(--text-secondary)]">
-              Des formations créées par des experts marocains et internationaux, mises à jour régulièrement.
+              {t.description}
             </p>
           </div>
         </div>
@@ -155,34 +160,41 @@ export default function CoursesPreview({ initialCourses = courses }: { initialCo
           animate: { transition: { staggerChildren: 0.08 } },
         }}
       >
-        {initialCourses.map((course, i) => (
+        {translatedCourses.map((course, i) => (
           <motion.div
-            key={course.title + i}
+            key={course.id + i}
             variants={{
               initial: { opacity: 0, y: 20 },
               animate: { opacity: 1, y: 0, transition: { duration: 0.5 } },
             }}
-            className="elite-card group cursor-pointer flex flex-col h-full bg-white"
+            className="elite-card group flex flex-col h-full bg-white overflow-hidden relative"
           >
-            <div className="relative h-48 w-full overflow-hidden rounded-t-[11px]">
-              <img src={course.image} alt={course.title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
+            {/* The whole card is a link, but we use a more standard approach */}
+            <Link 
+              href={`/courses/${course.id}`} 
+              className="absolute inset-0 z-10"
+              aria-label={course[language].title}
+            />
+            
+            <div className="relative h-48 w-full overflow-hidden">
+              <img src={course.image} alt={course[language].title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
               {course.badge && (
-                <div className={`absolute top-4 left-4 px-2.5 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider text-white ${course.badge === 'new' ? 'bg-[var(--success)]' : 'bg-[var(--gold)]'}`}>
-                  {course.badge === "bestseller" ? "Best Seller" : course.badge === "new" ? "Nouveau" : "IA incluse"}
+                <div className={`absolute top-4 left-4 px-2.5 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider text-white z-20 ${course.badge === 'new' ? 'bg-[var(--success)]' : 'bg-[var(--gold)]'}`}>
+                  {course.badge === "bestseller" ? t.badges.bestseller : course.badge === "new" ? t.badges.new : t.badges.ai}
                 </div>
               )}
             </div>
             
             <div className="p-6 flex flex-col flex-1">
               <div className="inline-block px-2.5 py-1 rounded bg-[var(--accent-light)] text-[var(--accent)] font-medium text-xs mb-4 w-fit">
-                {course.category}
+                {course[language].category}
               </div>
               <h3 className="font-display font-bold text-xl leading-tight text-[var(--text-primary)] mb-2 group-hover:text-[var(--accent)] transition-colors line-clamp-2">
-                {course.title}
+                {course[language].title}
               </h3>
               <p className="text-sm text-[var(--text-secondary)] mb-4 flex items-center gap-2">
-                <UserPlus size={14} /> {course.instructor}
+                <UserPlus size={14} /> {course[language].instructor}
               </p>
               
               <div className="flex items-center gap-4 text-sm font-medium text-[var(--text-muted)] mb-6">
@@ -194,7 +206,7 @@ export default function CoursesPreview({ initialCourses = courses }: { initialCo
                 {course.progress != null ? (
                   <div className="w-full">
                     <div className="flex items-center justify-between text-xs mb-1">
-                      <span className="text-[var(--text-muted)] font-medium">Progression</span>
+                      <span className="text-[var(--text-muted)] font-medium">{t.progress}</span>
                       <span className="text-[var(--success)] font-bold">{course.progress}%</span>
                     </div>
                     <div className="w-full h-1.5 rounded-full bg-[var(--bg-alt)] overflow-hidden">
@@ -204,8 +216,8 @@ export default function CoursesPreview({ initialCourses = courses }: { initialCo
                 ) : (
                   <>
                     <span className="font-mono font-bold text-xl text-[var(--text-primary)]">{course.price} MAD</span>
-                    <span className="text-sm font-medium text-[var(--accent)] flex items-center gap-1 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all">
-                      Voir <ArrowRight size={16} />
+                    <span className="text-sm font-bold text-[var(--accent)] flex items-center gap-1 group-hover:translate-x-1 transition-all">
+                      {t.view} <ArrowRight size={16} />
                     </span>
                   </>
                 )}

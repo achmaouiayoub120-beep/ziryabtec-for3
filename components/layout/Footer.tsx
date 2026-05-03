@@ -1,27 +1,8 @@
-import { Github, Linkedin, Twitter, Youtube, Mail, MapPin, Phone, Heart } from "lucide-react";
+"use client";
 
-const footerLinks = {
-  plateforme: [
-    { label: "Tous les cours", href: "/courses" },
-    { label: "Parcours IA", href: "#" },
-    { label: "Certifications", href: "#" },
-    { label: "Tarifs", href: "#" },
-    { label: "Entreprises", href: "#" },
-  ],
-  ressources: [
-    { label: "Blog", href: "#" },
-    { label: "Documentation", href: "#" },
-    { label: "FAQ", href: "/faqs" },
-    { label: "Communauté", href: "#" },
-    { label: "Vérifier un certificat", href: "#" },
-  ],
-  legal: [
-    { label: "Mentions légales", href: "#" },
-    { label: "CGU", href: "#" },
-    { label: "Politique de confidentialité", href: "#" },
-    { label: "Cookies", href: "#" },
-  ],
-};
+import { Github, Linkedin, Twitter, Youtube, Mail, MapPin, Phone, Heart } from "lucide-react";
+import { useLanguage } from "@/lib/i18n/LanguageContext";
+import { dictionaries } from "@/lib/i18n/dictionaries";
 
 const socialLinks = [
   { icon: Linkedin, href: "#", label: "LinkedIn" },
@@ -31,6 +12,32 @@ const socialLinks = [
 ];
 
 export default function Footer() {
+  const { language } = useLanguage();
+  const t = dictionaries[language].footer;
+
+  const footerLinks = {
+    plateforme: [
+      { label: t.links.platform.items[0], href: "/courses" },
+      { label: t.links.platform.items[1], href: "#" },
+      { label: t.links.platform.items[2], href: "#" },
+      { label: t.links.platform.items[3], href: "#" },
+      { label: language === 'fr' ? "Entreprises" : "Business", href: "#" },
+    ],
+    ressources: [
+      { label: t.links.company.items[2], href: "#" },
+      { label: language === 'fr' ? "Documentation" : "Documentation", href: "#" },
+      { label: "FAQ", href: "/faqs" },
+      { label: language === 'fr' ? "Communauté" : "Community", href: "#" },
+      { label: language === 'fr' ? "Vérifier un certificat" : "Verify a certificate", href: "#" },
+    ],
+    legal: [
+      { label: t.links.legal.items[2], href: "#" },
+      { label: t.links.legal.items[0], href: "#" },
+      { label: t.links.legal.items[1], href: "#" },
+      { label: "Cookies", href: "#" },
+    ],
+  };
+
   return (
     <footer className="relative border-t border-[var(--border)] bg-white">
       <div className="max-w-[1400px] mx-auto px-6 md:px-12 py-16 md:py-20">
@@ -41,8 +48,7 @@ export default function Footer() {
               <img src="/logo.png" alt="ZiryabTec" className="h-16 w-auto" />
             </div>
             <p className="text-[var(--text-secondary)] text-sm leading-relaxed mb-4 max-w-sm">
-              La première plateforme d&apos;apprentissage tech ultra-premium du Maroc.
-              Apprenez. Progressez. Prouvez-le.
+              {t.description}
             </p>
             <p className="text-[var(--accent)] text-xs mb-6 font-mono font-medium" dir="rtl">
               علم بلا حدود — Un savoir sans frontières
@@ -78,7 +84,7 @@ export default function Footer() {
           {/* Plateforme */}
           <div>
             <h4 className="text-sm font-bold uppercase tracking-wider text-[var(--text-primary)] mb-6 font-display">
-              Plateforme
+              {t.links.platform.title}
             </h4>
             <ul className="space-y-4">
               {footerLinks.plateforme.map((link) => (
@@ -97,7 +103,7 @@ export default function Footer() {
           {/* Ressources */}
           <div>
             <h4 className="text-sm font-bold uppercase tracking-wider text-[var(--text-primary)] mb-6 font-display">
-              Ressources
+              {language === 'fr' ? 'Ressources' : 'Resources'}
             </h4>
             <ul className="space-y-4">
               {footerLinks.ressources.map((link) => (
@@ -116,7 +122,7 @@ export default function Footer() {
           {/* Légal */}
           <div>
             <h4 className="text-sm font-bold uppercase tracking-wider text-[var(--text-primary)] mb-6 font-display">
-              Légal
+              {t.links.legal.title}
             </h4>
             <ul className="space-y-4">
               {footerLinks.legal.map((link) => (
@@ -136,10 +142,10 @@ export default function Footer() {
         {/* Bottom Bar */}
         <div className="mt-16 pt-8 border-t border-[var(--border)] flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-sm font-medium text-[var(--text-muted)]">
-            © {new Date().getFullYear()} ZiryabTec. Tous droits réservés.
+            {t.rights}
           </p>
           <p className="text-sm font-medium text-[var(--text-muted)] flex items-center gap-1">
-            Construit avec <Heart size={14} className="text-red-500 fill-red-500" /> au Maroc
+            {language === 'fr' ? 'Construit avec' : 'Built with'} <Heart size={14} className="text-red-500 fill-red-500" /> {language === 'fr' ? 'au Maroc' : 'in Morocco'}
           </p>
         </div>
       </div>
