@@ -93,10 +93,10 @@ export default function Navbar() {
           isScrolled ? "border-b border-[var(--border)] shadow-[var(--card-shadow)]" : "border-b border-transparent"
         )}
       >
-        <nav className="max-w-[1400px] mx-auto px-6 md:px-12 h-20 flex items-center justify-between">
+        <nav className="max-w-[1400px] mx-auto px-6 md:px-12 h-24 flex items-center justify-between">
           {/* Logo */}
           <a href="/" className="flex items-center gap-3 group" aria-label="ZiryabTec Home">
-            <img src="/logo.png" alt="ZiryabTec" className="h-14 w-auto" />
+            <img src="/logo.png" alt="ZiryabTec" className="h-20 w-auto" />
           </a>
 
           {/* Desktop Nav */}
