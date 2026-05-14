@@ -149,17 +149,6 @@ export default function RegisterPage() {
             </div>
           </div>
 
-          {/* Bottom: Quote */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.5 }}
-            className="max-w-md"
-          >
-            <p className="text-xl text-white/90 font-medium leading-relaxed italic">
-              &ldquo;Rejoignez <span className="text-blue-400 font-bold">2,400+</span> apprenants marocains qui transforment leur carrière.&rdquo;
-            </p>
-          </motion.div>
         </div>
       </div>
 
