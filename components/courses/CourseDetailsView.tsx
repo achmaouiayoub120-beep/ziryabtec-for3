@@ -33,11 +33,8 @@ export default function CourseDetailsView({ courseId }: { courseId?: string }) {
       {/* 1. Hero Section */}
       <CourseHero course={currentCourse} />
 
-      <div className="max-w-[1200px] mx-auto px-6 md:px-12 mt-16">
-        <div className="grid lg:grid-cols-[1.5fr,1fr] gap-12 items-start">
-          
-          {/* Main Content Column */}
-          <div className="space-y-12">
+      <div className="max-w-[1400px] mx-auto px-6 md:px-12 mt-16 lg:pr-[420px]">
+        <div className="space-y-12">
             
             {/* 2. Objectives */}
             <CourseObjectives course={currentCourse} />
@@ -121,12 +118,15 @@ export default function CourseDetailsView({ courseId }: { courseId?: string }) {
             </section>
           </div>
           
-          {/* Sidebar / Sticky Forms Column */}
-          <div className="lg:sticky lg:top-32 space-y-8">
-            <SessionTabs course={currentCourse} />
-          </div>
-          
+        {/* Mobile Sidebar Placement (en bas de page) */}
+        <div className="lg:hidden mt-12 pb-12">
+          <SessionTabs course={currentCourse} />
         </div>
+      </div>
+
+      {/* Desktop Floating Sidebar (Fixed Right) */}
+      <div className="hidden lg:block fixed right-0 top-[73px] bottom-0 w-[400px] bg-white/60 backdrop-blur-xl border-l border-[var(--border)] overflow-y-auto z-40 p-6 shadow-2xl">
+        <SessionTabs course={currentCourse} />
       </div>
     </div>
   );

@@ -102,7 +102,7 @@ export default function PricingPreview() {
   ];
 
   return (
-    <SectionWrapper id="pricing" className="bg-white py-24">
+    <SectionWrapper id="pricing" suppressHydrationWarning className="bg-white py-24">
       <FadeInChild className="text-center mb-16">
         <p className="text-sm text-[var(--accent)] font-bold uppercase tracking-widest mb-3">
           {t.subtitle}
@@ -171,6 +171,7 @@ export default function PricingPreview() {
               </ul>
 
               <a
+                suppressHydrationWarning
                 href={tier.name === "Entreprise" ? "/contact" : "/register"}
                 className={`w-full py-4 rounded-xl font-bold text-center transition-all ${
                   tier.highlighted 

@@ -1,9 +1,11 @@
 "use client";
 
 import { motion, useReducedMotion } from "framer-motion";
-import { PlayCircle, UserPlus, ArrowRight } from "lucide-react";
+import { PlayCircle, UserPlus, ArrowRight, Search, X } from "lucide-react";
 import SectionWrapper, { FadeInChild } from "@/components/ui/SectionWrapper";
 import Link from "next/link";
+import { useRouter, useSearchParams, usePathname } from "next/navigation";
+import { Suspense, useState, useEffect } from "react";
 import { useLanguage } from "@/lib/i18n/LanguageContext";
 import { dictionaries, translatedCourses } from "@/lib/i18n/dictionaries";
 
@@ -130,13 +132,48 @@ const courses: Course[] = [
   },
 ];
 
-export default function CoursesPreview() {
+function CoursesContent() {
   const shouldReduceMotion = useReducedMotion();
   const { language } = useLanguage();
   const t = dictionaries[language].courses;
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
+
+  // État local pour le champ de recherche textuelle
+  const [localSearch, setLocalSearch] = useState(searchParams.get("search") || "");
+
+  const searchQuery = searchParams.get("search") || "";
+  const categoryFilter = searchParams.get("category") || "all";
+  const priceFilter = searchParams.get("price") || "all";
+
+  // Obtenir les catégories uniques
+  const categories = ["all", ...Array.from(new Set(translatedCourses.map(c => c[language].category)))];
+
+  // Mettre à jour l'URL de manière dynamique
+  const updateParam = (key: string, value: string) => {
+    const params = new URLSearchParams(searchParams.toString());
+    if (value && value !== "all") {
+      params.set(key, value);
+    } else {
+      params.delete(key);
+    }
+    router.push(`${pathname}?${params.toString()}`, { scroll: false });
+  };
+
+  // Filtrage du tableau de cours
+  const filteredCourses = translatedCourses.filter((course) => {
+    const matchesSearch = course[language].title.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesCategory = categoryFilter === "all" || course[language].category === categoryFilter;
+    let matchesPrice = true;
+    if (priceFilter === "free") matchesPrice = course.price === 0;
+    if (priceFilter === "paid") matchesPrice = course.price > 0;
+
+    return matchesSearch && matchesCategory && matchesPrice;
+  });
 
   return (
-    <SectionWrapper id="courses" className="max-w-[1400px] mx-auto px-6 md:px-12 py-24">
+    <SectionWrapper id="courses" suppressHydrationWarning className="max-w-[1400px] mx-auto px-6 md:px-12 py-24">
       <FadeInChild className="mb-12">
         <span className="font-mono text-sm text-[var(--accent)] font-bold tracking-widest uppercase mb-4 block">{t.catalog}</span>
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
@@ -147,6 +184,59 @@ export default function CoursesPreview() {
             <p className="text-lg text-[var(--text-secondary)]">
               {t.description}
             </p>
+          </div>
+        </div>
+
+        {/* Barre de filtres */}
+        <div className="mt-8 flex flex-col md:flex-row gap-4 items-center bg-white p-4 rounded-xl shadow-sm border border-[var(--border)]">
+          {/* Recherche */}
+          <div className="relative flex-1 w-full">
+            <Search size={18} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+            <input 
+              type="text" 
+              placeholder={t.filters.searchPlaceholder}
+              value={localSearch}
+              onChange={(e) => {
+                setLocalSearch(e.target.value);
+                updateParam("search", e.target.value);
+              }}
+              className="w-full pl-10 pr-4 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--accent)]"
+            />
+            {localSearch && (
+              <button 
+                onClick={() => { setLocalSearch(""); updateParam("search", ""); }}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+              >
+                <X size={16} />
+              </button>
+            )}
+          </div>
+          
+          {/* Catégories */}
+          <div className="w-full md:w-auto">
+            <select 
+              value={categoryFilter}
+              onChange={(e) => updateParam("category", e.target.value)}
+              className="w-full md:w-48 px-4 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--accent)]"
+            >
+              <option value="all">{t.filters.allCategories}</option>
+              {categories.filter(c => c !== "all").map(c => (
+                <option key={c} value={c}>{c}</option>
+              ))}
+            </select>
+          </div>
+
+          {/* Prix */}
+          <div className="w-full md:w-auto">
+            <select 
+              value={priceFilter}
+              onChange={(e) => updateParam("price", e.target.value)}
+              className="w-full md:w-40 px-4 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--accent)]"
+            >
+              <option value="all">{t.filters.allPrices}</option>
+              <option value="free">{t.filters.free}</option>
+              <option value="paid">{t.filters.paid}</option>
+            </select>
           </div>
         </div>
       </FadeInChild>
@@ -160,7 +250,7 @@ export default function CoursesPreview() {
           animate: { transition: { staggerChildren: 0.08 } },
         }}
       >
-        {translatedCourses.map((course, i) => (
+        {filteredCourses.map((course, i) => (
           <motion.div
             key={course.id + i}
             variants={{
@@ -171,6 +261,7 @@ export default function CoursesPreview() {
           >
             {/* The whole card is a link, but we use a more standard approach */}
             <Link 
+              suppressHydrationWarning
               href={`/courses/${course.id}`} 
               className="absolute inset-0 z-10"
               aria-label={course[language].title}
@@ -225,7 +316,23 @@ export default function CoursesPreview() {
             </div>
           </motion.div>
         ))}
+        {filteredCourses.length === 0 && (
+          <div className="col-span-full py-12 text-center text-[var(--text-secondary)]">
+            {t.filters.noResults}
+          </div>
+        )}
       </motion.div>
     </SectionWrapper>
+  );
+}
+
+export default function CoursesPreview() {
+  const { language } = useLanguage();
+  const t = dictionaries[language].courses;
+
+  return (
+    <Suspense fallback={<div className="py-24 text-center">{t.filters.loading}</div>}>
+      <CoursesContent />
+    </Suspense>
   );
 }

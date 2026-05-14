@@ -1,28 +1,13 @@
 export const dictionaries = {
   fr: {
     hero: {
-      badge: "Plateforme N°1 au Maroc",
-      titleWords: ["Apprenez.", "Progressez.", "Prouvez-le."],
-      subtitle: "La première plateforme d'apprentissage tech ultra-premium du Maroc. Tuteur IA, parcours adaptatifs, certificats vérifiables.",
-      ctaPrimary: "Commencer gratuitement",
-      ctaSecondary: "Explorer les cours",
-      stats: [
-        { label: "Apprenants", suffix: "+" },
-        { label: "Cours", suffix: "" },
-        { label: "Satisfaction", suffix: "%" }
-      ],
-      dashboard: {
-        greeting: "Bonjour, Ayoub",
-        level: "Niveau Intermédiaire",
-        activeCourse: "Cours actif",
-        courseName: "Python Avancé & Data Science",
-        completed: "65% complété",
-        rankLabel: "Rank",
-        rankCountry: "Maroc",
-        activity: "Activité · 30 jours",
-        aiTutor: "Tuteur IA",
-        online: "En ligne"
-      },
+      badge: "Plateforme d'excellence",
+      titleStart: "Formations IT certifiantes en ",
+      titleHighlight: "IA, Cloud & Cybersécurité",
+      titleEnd: "",
+      subtitle: "Préparez vos certifications ISTQB, AWS, Microsoft Azure et plus encore. Plus de 290 formations animées par des experts certifiés.",
+      searchPlaceholder: "Que souhaitez-vous apprendre aujourd'hui ? (ex: Cloud, Python...)",
+      searchButton: "Rechercher",
       scroll: "Découvrir"
     },
     courses: {
@@ -35,7 +20,16 @@ export const dictionaries = {
         ai: "IA incluse"
       },
       progress: "Progression",
-      view: "Voir"
+      view: "Voir",
+      filters: {
+        searchPlaceholder: "Rechercher un cours...",
+        allCategories: "Toutes les catégories",
+        allPrices: "Tous les prix",
+        free: "Gratuit",
+        paid: "Payant",
+        noResults: "Aucun cours ne correspond à vos critères de recherche.",
+        loading: "Chargement du catalogue..."
+      }
     },
     features: {
       subtitle: "Fonctionnalités",
@@ -153,28 +147,13 @@ export const dictionaries = {
   },
   en: {
     hero: {
-      badge: "N°1 Platform in Morocco",
-      titleWords: ["Learn.", "Progress.", "Prove it."],
-      subtitle: "The first ultra-premium tech learning platform in Morocco. AI Tutor, adaptive paths, verifiable certificates.",
-      ctaPrimary: "Start for free",
-      ctaSecondary: "Explore courses",
-      stats: [
-        { label: "Learners", suffix: "+" },
-        { label: "Courses", suffix: "" },
-        { label: "Satisfaction", suffix: "%" }
-      ],
-      dashboard: {
-        greeting: "Hello, Ayoub",
-        level: "Intermediate Level",
-        activeCourse: "Active Course",
-        courseName: "Advanced Python & Data Science",
-        completed: "65% completed",
-        rankLabel: "Rank",
-        rankCountry: "Morocco",
-        activity: "Activity · 30 days",
-        aiTutor: "AI Tutor",
-        online: "Online"
-      },
+      badge: "Platform of Excellence",
+      titleStart: "Certified IT Training in ",
+      titleHighlight: "AI, Cloud & Cybersecurity",
+      titleEnd: "",
+      subtitle: "Prepare for your ISTQB, AWS, Microsoft Azure certifications and more. Over 290 training sessions led by certified experts.",
+      searchPlaceholder: "What do you want to learn today? (ex: Cloud, Python...)",
+      searchButton: "Search",
       scroll: "Discover"
     },
     courses: {
@@ -187,7 +166,16 @@ export const dictionaries = {
         ai: "AI Included"
       },
       progress: "Progress",
-      view: "View"
+      view: "View",
+      filters: {
+        searchPlaceholder: "Search for a course...",
+        allCategories: "All Categories",
+        allPrices: "All Prices",
+        free: "Free",
+        paid: "Paid",
+        noResults: "No courses match your search criteria.",
+        loading: "Loading catalog..."
+      }
     },
     features: {
       subtitle: "Features",

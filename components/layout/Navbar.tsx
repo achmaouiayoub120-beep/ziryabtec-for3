@@ -59,7 +59,7 @@ export default function Navbar() {
   return (
     <>
       {/* ── TOP BAR ── */}
-      <div className="bg-[var(--accent)] text-white text-[12px] py-2 px-6 md:px-12 hidden md:flex justify-between items-center z-50 relative">
+      <div suppressHydrationWarning className="bg-[var(--accent)] text-white text-[12px] py-2 px-6 md:px-12 hidden md:flex justify-between items-center z-50 relative">
         <div className="flex items-center gap-6">
           <a href="tel:+2126123456" className="flex items-center gap-2 hover:text-[var(--gold)] transition-colors">
             <Phone size={14} />
@@ -93,7 +93,7 @@ export default function Navbar() {
           isScrolled ? "border-b border-[var(--border)] shadow-[var(--card-shadow)]" : "border-b border-transparent"
         )}
       >
-        <nav className="max-w-[1400px] mx-auto px-6 md:px-12 h-24 flex items-center justify-between">
+        <nav suppressHydrationWarning className="max-w-[1400px] mx-auto px-6 md:px-12 h-24 flex items-center justify-between">
           {/* Logo */}
           <a href="/" className="flex items-center gap-3 group" aria-label="ZiryabTec Home">
             <img src="/logo.png" alt="ZiryabTec" className="h-20 w-auto" />
