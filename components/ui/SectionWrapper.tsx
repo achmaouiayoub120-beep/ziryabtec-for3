@@ -7,14 +7,16 @@ interface SectionWrapperProps {
   children: React.ReactNode;
   className?: string;
   id?: string;
+  suppressHydrationWarning?: boolean;
 }
 
-export default function SectionWrapper({ children, className, id }: SectionWrapperProps) {
+export default function SectionWrapper({ children, className, id, suppressHydrationWarning }: SectionWrapperProps) {
   const shouldReduceMotion = useReducedMotion();
 
   return (
     <motion.section
       id={id}
+      suppressHydrationWarning={suppressHydrationWarning}
       initial={shouldReduceMotion ? {} : "initial"}
       whileInView={shouldReduceMotion ? {} : "animate"}
       viewport={{ once: true, margin: "-80px" }}
@@ -29,12 +31,14 @@ export default function SectionWrapper({ children, className, id }: SectionWrapp
 export function FadeInChild({
   children,
   className,
+  suppressHydrationWarning,
 }: {
   children: React.ReactNode;
   className?: string;
+  suppressHydrationWarning?: boolean;
 }) {
   return (
-    <motion.div variants={fadeInUp} className={className}>
+    <motion.div variants={fadeInUp} className={className} suppressHydrationWarning={suppressHydrationWarning}>
       {children}
     </motion.div>
   );
